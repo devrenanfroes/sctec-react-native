@@ -1,22 +1,38 @@
 # sctec-react-native
 
-# Git & GitHub
+Repositório principal de estudos do curso de Desenvolvimento Mobile com React Native — SENAI / SCtec.
 
-Repositório criado para acompanhar as aulas de Git e GitHub do curso de React Native - SCTEC
+Este repositório também concentra exercícios anteriores de fundamentos web que estavam no antigo repositório `sctec`, mantendo todo o material do curso em um único lugar sem misturar etapas diferentes da trilha.
 
 ## Organização
 
-Uma pasta por semana de aula. As semanas começam na segunda-feira.
+### Fundamentos web — etapa anterior
 
-| Pasta       | Semana de   | Conteúdo                                        |
-| ----------- | ----------- | ----------------------------------------------- |
-| `semana-01` | 29/06       | vazia                                           |
-| `semana-02` | 06/07       | vazia (Git e GitHub, ver README)                |
-| `semana-03` | 13/07       | entrada pelo terminal, `for`, `while`, arrays   |
-| `semana-04` | 20/07       | `map` e `filter`, objetos, `fetch`              |
-| `semana-05` | 27/07       | orientação a objetos (classes)                  |
-| `semana-06` | 03/08       | vazia                                           |
-| `semana-07` | 10/08       | vazia                                           |
+Conteúdo produzido antes da organização por semanas da trilha React Native.
 
-Os arquivos foram distribuídos pela data em que foram escritos. As pastas vazias guardam
-um `.gitkeep` só para existirem no Git.
+| Pasta | Conteúdo |
+| --- | --- |
+| `fundamentos-web/aula19-switch` | `switch case`, DOM e seleção de idioma |
+| `fundamentos-web/aula20-arrays` | arrays, índices e `push()` |
+| `fundamentos-web/aula24-functions` | funções, condicionais e DOM |
+| `fundamentos-web/aula25-function2` | funções, arrays e validação de pedidos |
+
+### React Native — organização por semanas
+
+As semanas começam na segunda-feira.
+
+| Pasta       | Semana de | Conteúdo |
+| ----------- | --------- | -------- |
+| `semana-01` | 29/06 | sem exercícios versionados |
+| `semana-02` | 06/07 | Git e GitHub |
+| `semana-03` | 13/07 | entrada pelo terminal, `for`, `while`, arrays |
+| `semana-04` | 20/07 | `map`, `filter`, objetos e `fetch` |
+| `semana-05` | 27/07 | orientação a objetos e classes |
+| `semana-06` | 03/08 | sem exercícios versionados |
+| `semana-07` | 10/08 | HTML e CSS |
+
+As pastas sem exercícios possuem apenas `.gitkeep` para permanecerem versionadas.
+
+## Consolidação
+
+O conteúdo educacional do antigo repositório `sctec` foi incorporado em `fundamentos-web/`. Configurações locais de editor, como `.vscode/settings.json`, não foram migradas porque não fazem parte do material de estudo.

@@ -1,0 +1,27 @@
+<!-- 
+ 1- Crie um arquivo HTML com tags: h1, select, 
+ option (para escolha dos idiomas), button e P;
+ 2- Crie o JS com variável que receberá o idioma selecionado e outra variável
+ para apresentar a saudação na página;
+ 3- Utilize Switch Case.
+ -->
+
+ <!DOCTYPE html>
+ <html lang="pt-br">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudações</title>
+    <script src="script.js"></script>
+ </head>
+ <body>
+    <h1>Escolha um idioma / Select a language: </h1>
+    <select name="idiomas" id="idiomas">
+        <option value="english">English</option>
+        <option value="portuguese">Português</option>
+        <option value="spanish">Espanhol</option>
+    </select>
+    <button onclick="traduzir()">Mostrar Saudação</button>
+    <p id="traducao">Após escolher o idioma, clique em Mostrar Saudação</p>
+ </body>
+ </html>
