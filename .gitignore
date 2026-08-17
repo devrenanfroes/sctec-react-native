@@ -1,6 +1,5 @@
+# Arquivos que o Git deve ignorar
 node_modules/
-*.log
-.env
-.env.*
-!.env.example
 .DS_Store
+Thumbs.db
+*.log

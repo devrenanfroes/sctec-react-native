@@ -1,38 +1,18 @@
-const prompt = require("prompt-sync")();
-
-function calcularCarrinho(
-  precoItem1,
-  precoItem2,
-  cupomDesconto,
-  quantidadeItens,
-) {
-  let total = precoItem1 + precoItem2;
-
-  if ((cupomDesconto === "PROMO10")) {
-    total = total - total * 0.1;
-  }
-
-  let freteGratis = false;
-  if (quantidadeItens >= 3) {
-    freteGratis = true;
-  }
-  if ((total >= 100)){
-    freteGratis = true;
-  } 
-
-  return "Total: R$ " + total + " | Frete grátis: " + freteGratis;
+function cupomValido(codigo) {
+  return codigo === "PROMO10";
 }
 
-const precoItem1Input = Number(prompt("Preço do item 1: "));
-const precoItem2Input = Number(prompt("Preço do item 2: "));
-const cupomInput = prompt("Cupom de desconto (ou deixe vazio): ");
-const quantidadeDeItensInput = Number(prompt("Quantidade de itens: "));
+function aplicarDesconto(valor, codigo) {
+  if (cupomValido(codigo)) {
+    return valor - valor * 0.1;
+  }
+  return valor;
+}
 
-console.log(
-  calcularCarrinho(
-    precoItem1Input,
-    precoItem2Input,
-    cupomInput,
-    quantidadeDeItensInput,
-  ),
-);
+// Testes
+console.log(cupomValido("PROMO10")); // true
+console.log(cupomValido("promo10")); // false (case sensitive)
+console.log(cupomValido("SEMCUPOM")); // false
+
+console.log(aplicarDesconto(100, "PROMO10")); // 90
+console.log(aplicarDesconto(100, "XYZ")); // 100
