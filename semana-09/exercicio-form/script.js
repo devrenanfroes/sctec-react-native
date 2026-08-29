@@ -23,24 +23,80 @@ trilhas.forEach((opcao) => {
 formulario.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const temas = [];
+  const dadosFormulario = new FormData(formulario);
 
-  document
-    .querySelectorAll('input[name="temas"]:checked')
-    .forEach((tema) => temas.push(tema.value));
+  const nome = dadosFormulario.get("nome");
+  const email = dadosFormulario.get("email");
+  const senha = dadosFormulario.get("senha");
+  const idade = dadosFormulario.get("idade");
+  const nascimento = dadosFormulario.get("nascimento");
+  const trilhaSelecionada = dadosFormulario.get("trilha");
+  const nivel = dadosFormulario.get("nivel");
+  const apresentacao = dadosFormulario.get("apresentacao");
+  const temas = dadosFormulario.getAll("temas");
 
-  const nivel = document.querySelector("input[name='nivel']:checked").value;
+  document.querySelectorAll(".input-error").forEach((campo) => {
+    campo.classList.remove("input-error");
+  });
+
+  document.querySelectorAll(".mensagem-erro").forEach((mensagem) => {
+    mensagem.remove();
+  });
+
+  const erros = [];
+  const possuiNumero = /\d/.test(senha);
+
+  if (senha.length < 8) {
+    erros.push({
+      campo: document.getElementById("senha"),
+      mensagem: "A senha deve ter pelo menos 8 caracteres.",
+    });
+  }
+
+  if (!possuiNumero) {
+    erros.push({
+      campo: document.getElementById("senha"),
+      mensagem: "A senha deve conter pelo menos um número.",
+    });
+  }
+
+  if (temas.length === 0) {
+    erros.push({
+      campo: document.querySelector('input[name="temas"]'),
+      mensagem: "Selecione pelo menos um tema de interesse.",
+    });
+  }
+
+  if (apresentacao.trim().length < 20) {
+    erros.push({
+      campo: document.getElementById("apresentacao"),
+      mensagem: "A apresentação deve ter pelo menos 20 caracteres.",
+    });
+  }
+
+  if (erros.length > 0) {
+    erros.forEach((el) => {
+      el.campo.classList.add("input-error");
+      const mensagem = document.createElement("span");
+      mensagem.className = "mensagem-erro";
+      mensagem.textContent = el.mensagem;
+      const elementoMensagem = el.campo.closest("fieldset") || el.campo;
+      elementoMensagem.after(mensagem);
+    });
+
+    return;
+  }
 
   const dados = {
-    nome: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    senha: document.getElementById("senha").value,
-    idade: document.getElementById("age").value,
-    nascimento: document.getElementById("nascimento").value,
-    trilha: document.getElementById("trilha").value,
-    nivel: nivel ? nivel : "Não informado",
-    temas: temas,
-    apresentacao: document.getElementById("apresentacao").value,
+    nome,
+    email,
+    senha,
+    idade,
+    nascimento,
+    trilha: trilhaSelecionada,
+    nivel,
+    temas,
+    apresentacao,
   };
 
   resumo.innerHTML = `
