@@ -1,0 +1,79 @@
+name: Sync instrutor
+
+on:
+  schedule:
+    # 23:59 em America/Sao_Paulo (UTC-3)
+    - cron: "59 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-instrutor-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Adicionar remoto do instrutor
+        run: |
+          git remote add instrutor https://github.com/Desenvolvedor-Mobile-ReactNative-T1/codigo-tecnico-semanas.git || true
+          git remote set-url instrutor https://github.com/Desenvolvedor-Mobile-ReactNative-T1/codigo-tecnico-semanas.git
+
+      - name: Buscar atualizações
+        run: git fetch instrutor main
+
+      - name: Verificar se há novidades
+        id: check
+        shell: bash
+        run: |
+          if git merge-base --is-ancestor instrutor/main HEAD; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "Nenhuma atualização nova no repositório do instrutor."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "Novas alterações detectadas."
+          fi
+
+      - name: Mesclar atualizações do instrutor
+        if: steps.check.outputs.has_changes == 'true'
+        shell: bash
+        run: |
+          set -e
+          git merge --no-edit instrutor/main || {
+            echo "::error::Conflito ao sincronizar com instrutor/main. Nenhum force push será realizado."
+            git merge --abort || true
+            exit 1
+          }
+
+      - name: Publicar sincronização
+        if: steps.check.outputs.has_changes == 'true'
+        run: git push origin HEAD:main
+
+      - name: Resumo
+        if: always()
+        shell: bash
+        run: |
+          echo "### Sync instrutor" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Repositório de origem: \`Desenvolvedor-Mobile-ReactNative-T1/codigo-tecnico-semanas\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Branch de origem: \`main\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Branch de destino: \`main\`" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.check.outputs.has_changes }}" = "true" ]; then
+            echo "- Resultado: atualizações detectadas e merge solicitado" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Resultado: nenhuma atualização detectada" >> "$GITHUB_STEP_SUMMARY"
+          fi
